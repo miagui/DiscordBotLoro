@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const DiscordRSS = require('discord.rss')
 const drss = new DiscordRSS.Client({
   database: {
-    uri: './sources'
+    uri: process.env.MONGODB_URI
   }
 }) // File-based sources instead of Mongo
 
