@@ -8,7 +8,7 @@ const request = require('request');
 module.exports.run = (client, message, args, prefix) => {
 
     // Read the file and send to the callback
-    fs.readFile('./preços.json', handleFile);
+    fs.readFile('./json/preços.json', handleFile);
 
     // Write the callback function
     function handleFile(err, data) {
@@ -19,6 +19,7 @@ module.exports.run = (client, message, args, prefix) => {
 
         let Store = prices.applist.apps;
         let gameArg = args.join(" "); //argumento usado no comando i.e (!store 'argumento')
+        if (gameArg == -1) return message.channel.send('Envie um jogo válido.\n!store <game>');
         var argFilter = _.filter(Store, v => v.name.trim().toLowerCase().indexOf(`${gameArg}`) != -1); // filter para procurar pelo argumento
         var searchAppid = jsonQ(argFilter),
 
@@ -41,14 +42,19 @@ module.exports.run = (client, message, args, prefix) => {
             const numberDot = (price) => {
 
                 if (price.toString().length == 3) {
-                    return price.toString().slice(0, 1) + ',' + price.toString().slice(2, 3)
+                    return price.toString().slice(0, 1) + ',' + price.toString().slice(1, 3)
 
                 } else if (price.toString().length == 4) {
 
                     return price.toString().slice(0, 2) + ',' + price.toString().slice(2, 4)
 
-                } else {
+                } else if (price.toString().length == 5) {
 
+                    return price.toString().slice(0, 3) + ',' + price.toString().slice(3, 5) 
+
+                } else {
+                    
+                    return price.toString().slice(0, 4) + ',' + price.toString().slice(4, 6)
                 }
             }
             //maneira util de verificar se foi encontrado algum preço. Se
