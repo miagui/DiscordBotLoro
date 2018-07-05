@@ -47,7 +47,7 @@ module.exports.run = (client, message, args, prefix) => {
     console.log(nameInv)
 
     //busca a informação do jogo apartir do AppID fornecido antes.
-    fs.readFile('bp_price.json', handleBP);
+    fs.readFile('./json/bp_price.json', handleBP);
 
     function handleBP(err, data2) {
       if (err) throw console.log(err)
@@ -112,11 +112,10 @@ module.exports.run = (client, message, args, prefix) => {
   checkIf(collector, col_, "Collector")
 
   message.channel.send({embed});
-
-      ;
     }
   }
 }
+
 module.exports.help = {
   name: 'bp'
 }

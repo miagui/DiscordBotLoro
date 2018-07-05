@@ -19,7 +19,7 @@ module.exports.run = (client, message, args, prefix) => {
 
         let Store = prices.applist.apps;
         let gameArg = args.join(" "); //argumento usado no comando i.e (!store 'argumento')
-        if (gameArg == -1) return message.channel.send('Envie um jogo válido.\n!store <game>');
+        if (!gameArg) return message.channel.send('Envie um jogo válido.\n!store <game>');
         var argFilter = _.filter(Store, v => v.name.trim().toLowerCase().indexOf(`${gameArg}`) != -1); // filter para procurar pelo argumento
         var searchAppid = jsonQ(argFilter),
 

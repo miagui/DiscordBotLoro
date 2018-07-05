@@ -20,6 +20,7 @@ const config = require("./config.json");
 
 client.commands = new Discord.Collection()
 drss.login(process.env.token)
+client.login(process.env.token)
 
 //Atualiza diariamente o .json com a applist.
 update.updateFile.start()
@@ -75,4 +76,3 @@ client.on("message", (message) => {
       return message.reply(`Olá ${message.author.username}, eu vejo que você tem ${age} anos ${sex} de ${location}. Vamos voar? :)`);*/
 });
 //client.login(process.env.token)
-client.login(process.env.token);
