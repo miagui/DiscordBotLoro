@@ -4,6 +4,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const jsonQ = require("jsonq");
 const request = require('request');
+const fuzzysort = require('fuzzysort')
 
 module.exports.run = (client, message, args, prefix) => {
 
@@ -19,8 +20,8 @@ module.exports.run = (client, message, args, prefix) => {
 
         let Store = prices.applist.apps;
         let gameArg = args.join(" "); //argumento usado no comando i.e (!store 'argumento')
-        if (!gameArg) return message.channel.send('Envie um jogo válido.\n!store <game>');
-        var argFilter = _.filter(Store, v => v.name.trim().toLowerCase().indexOf(`${gameArg}`) != -1); // filter para procurar pelo argumento
+        if (!gameArg) return message.channel.send('Envie um jogo válido.\n`!store <game>`');
+        const argFilter = fuzzysort.go(gameArg, Store, {key:'name'})
         var searchAppid = jsonQ(argFilter),
 
             //to find all the name
@@ -71,6 +72,10 @@ https://store.steampowered.com/app/${AppID[0]}`);
                 message.channel.send(`Free-to-Play
 Data de lançamento: ${JSON.stringify(releaseDate.toString())}                                                                    
 https://store.steampowered.com/app/${AppID[0]}`)
+
+            } else if (discountPercent == 0) {
+
+                message.channel.send(`Preço: R$${numberDot(initialPrice)}\nSem promoção para esse jogo no momento.\nData de lançamento: ${releaseDate.toString()}\nhttps://store.steampowered.com/app/${AppID[0]}`);
 
             } else {
 
