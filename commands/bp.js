@@ -30,7 +30,7 @@ module.exports.run = (client, message, args, prefix) => {
     itemThumb = searchFilter.find('image_url').value()[0]
     useby = searchFilter.find('used_by_classes').value()[0]
     if (!useby) {
-      var usedBy = 'All-Classes'
+      var usedBy = ['All-Classes']
     } else {
       var usedBy = useby
     }
