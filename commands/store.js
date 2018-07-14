@@ -59,7 +59,7 @@ module.exports.run = (client, message, args, prefix) => {
                 }
             }
             //maneira util de verificar se foi encontrado algum preço. Se
-            if (initialPrice.length >= 1) {
+            if (initialPrice.length >= 1 && discountPercent >= 1) {
 
                 message.channel.send(`Preço inicial: R$${numberDot(initialPrice)}              
 Preço em promoção: R$${numberDot(finalPrice)} (${discountPercent}% desconto)
