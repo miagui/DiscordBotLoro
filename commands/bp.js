@@ -20,7 +20,7 @@ module.exports.run = (client, message, args, prefix) => {
 
     var items = i.result.items;
     var itemArg = args.join(" ");
-    if (itemArg) return message.channel.send('Envie um item válido ou mude as palavras.\n`!bp <nomedoitem>`');
+    if (!itemArg) return message.channel.send('Envie um item válido ou mude as palavras.\n`!bp <nomedoitem>`');
     //var itemFilter = _.filter(items, v => v.name.trim().toLowerCase().indexOf(`${itemArg}`) != -1);
     const results = fuzzysort.go(itemArg, items, {key:'item_name'})
 
