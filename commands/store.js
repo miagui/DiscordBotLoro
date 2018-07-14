@@ -69,9 +69,7 @@ https://store.steampowered.com/app/${AppID[0]}`);
             //se não houver preço, mas haver um AppID, então o jogo é free to play.
             } else if (initialPrice.length == 0 && AppID[0]) {
 
-                message.channel.send(`Free-to-Play
-Data de lançamento: ${JSON.stringify(releaseDate.toString())}                                                                    
-https://store.steampowered.com/app/${AppID[0]}`)
+                message.channel.send(`Data de lançamento: ${JSON.stringify(releaseDate.toString())}\nhttps://store.steampowered.com/app/${AppID[0]}`)
 
             } else if (initialPrice.length >= 1 && discountPercent == 0) {
 

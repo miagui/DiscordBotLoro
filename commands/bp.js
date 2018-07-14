@@ -20,6 +20,7 @@ module.exports.run = (client, message, args, prefix) => {
 
     var items = i.result.items;
     var itemArg = args.join(" ");
+    if (itemArg) return message.channel.send('Envie um item válido ou mude as palavras.\n`!bp <nomedoitem>`');
     //var itemFilter = _.filter(items, v => v.name.trim().toLowerCase().indexOf(`${itemArg}`) != -1);
     const results = fuzzysort.go(itemArg, items, {key:'item_name'})
 
@@ -27,7 +28,12 @@ module.exports.run = (client, message, args, prefix) => {
 
       nameResult = searchFilter.find('item_name'); //procura pelo array name
     itemThumb = searchFilter.find('image_url').value()[0]
-    usedBy = searchFilter.find('used_by_classes').value()[0]
+    useby = searchFilter.find('used_by_classes').value()[0]
+    if (!useby) {
+      var usedBy = 'All-Classes'
+    } else {
+      var usedBy = useby
+    }
     var niv = nameResult.value()[0];
 
     if (typeof niv == 'undefined') {
@@ -59,7 +65,7 @@ module.exports.run = (client, message, args, prefix) => {
       let uncraft = bSearch.find(nameInv).find('prices').find('6').find('Non-Craftable').find('value').value();
 
       let cr = bSearch.find(nameInv).find('prices').find('6').find('Craftable').find('currency').value();
-      let uncr = bSearch.find(nameInv).find('prices').find('6').find('Craftable').find('currency').value();
+      let uncr = bSearch.find(nameInv).find('prices').find('6').find('Non-Craftable').find('currency').value();
 
       let genuine = bSearch.find(nameInv).find('prices').find('1').find('value').value();
       let gen_ = bSearch.find(nameInv).find('prices').find('1').find('currency').value();
@@ -67,7 +73,6 @@ module.exports.run = (client, message, args, prefix) => {
       let vintage = bSearch.find(nameInv).find('prices').find('3').find('value').value();
       let vint_ = bSearch.find(nameInv).find('prices').find('3').find('currency').value();
 
-      //let unusual = bSearch.find(nameInv).find('prices').find('5').find('Tradable').find('Craftable').find('currency').value()
       let strange = bSearch.find(nameInv).find('prices').find('11').find('value').value();
       let str_ = bSearch.find(nameInv).find('prices').find('11').find('currency').value();
 
