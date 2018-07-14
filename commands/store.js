@@ -73,7 +73,7 @@ https://store.steampowered.com/app/${AppID[0]}`);
 Data de lançamento: ${JSON.stringify(releaseDate.toString())}                                                                    
 https://store.steampowered.com/app/${AppID[0]}`)
 
-            } else if (discountPercent == 0) {
+            } else if (initialPrice.length >= 1 && discountPercent == 0) {
 
                 message.channel.send(`Preço: R$${numberDot(initialPrice)}\nSem promoção para esse jogo no momento.\nData de lançamento: ${releaseDate.toString()}\nhttps://store.steampowered.com/app/${AppID[0]}`);
 
