@@ -17,10 +17,12 @@
     "embed-creator": "^1.2.3",
     "fuse.js": "^3.2.1",
     "fuzzysort": "^1.1.4",
+    "get-steam-inventory": "^1.1.2",
     "jshint": "^2.9.5",
     "jslint": "^0.12.0",
     "jsonq": "^1.1.0",
     "lodash": "^4.17.10",
+    "on-change": "^0.1.0",
     "p-map": "^1.2.0",
     "request": "^2.87.0",
     "steam-market-pricing": "^2.0.0"
