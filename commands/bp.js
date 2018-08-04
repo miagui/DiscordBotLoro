@@ -30,7 +30,7 @@ module.exports.run = (client, message, args, prefix) => {
 
       async function return_promise() {
 
-      var rate = USDto.convert('BRL')
+      var rate = await USDto.convert('BRL')
       var item_name = results.find('item_name').value()[0]; //procura pelo array name
       var image_url = results.find('image_url').value()[0]
       var used_by = results.find('used_by_classes').value()[0]
