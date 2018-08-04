@@ -65,7 +65,7 @@ module.exports.run = (client, message, args, prefix) => {
 
         let bSearch = jsonQ(data2)
 
-        let usd_refined = bSearch.find('raw_usd_value').value()[0]
+        var usd_refined = bSearch.find('raw_usd_value').value()[0]
 
         let craft = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('value').value();
         let uncraft = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('value').value();
@@ -90,7 +90,7 @@ module.exports.run = (client, message, args, prefix) => {
 
           if (key_metal.toString() == 'metal') {
 
-            return `refined (R$ ${Number(usd_refined) * value * rate.toString().slice(0, 3)})`;
+            return `refined (R$ ${parseFloat(usd_refined) * value * rate.toString().slice(0, 3)})`;
 
           } else {
 
