@@ -22,7 +22,7 @@ module.exports.run = (client, message, args, prefix) => {
       data = data.result.items;
       var itemArg = args.join(" ");
       if (!itemArg) return message.channel.send('Envie um item válido ou mude as palavras.\n`!bp <nomedoitem>`');
-      var results = fuzzysort.go(itemArg, items, {
+      var results = fuzzysort.go(itemArg, data, {
         key: 'item_name'
       })
       results = jsonQ(results)
