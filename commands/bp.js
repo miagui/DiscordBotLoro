@@ -65,7 +65,7 @@ module.exports.run = (client, message, args, prefix) => {
 
         let bSearch = jsonQ(data2)
 
-        let usd_refined = bSearch.find('raw_usd_value').value()
+        let usd_refined = bSearch.find('raw_usd_value').value()[0]
 
         let craft = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('value').value();
         let uncraft = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('value').value();
@@ -87,10 +87,15 @@ module.exports.run = (client, message, args, prefix) => {
 
         //value é o valor de tantas keys ou metais. Por exemplo: 1.66 Refined
         const currency = (key_metal, value) => {
+          
           if (key_metal.toString() == 'metal') {
+
             return `refined (R$ ${usd_refined * value * rate.toString().slice(0, 3)})`;
+
           } else {
+
             return `keys (R$ ${2.50 * value * rate.toString().slice(0, 3)})`
+
         }
       }
 
