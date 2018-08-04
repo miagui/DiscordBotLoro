@@ -18,6 +18,7 @@ module.exports.run = (client, message, args, prefix) => {
 
     if (err) throw err;
     data = JSON.parse(data);
+
     // You can now play with your datas
       data = data.result.items;
       var itemArg = args.join(" ");
@@ -130,6 +131,7 @@ module.exports.run = (client, message, args, prefix) => {
         });
       }
     }
+    return_promise();
   }
 }
 
