@@ -41,7 +41,7 @@ module.exports.run = (client, message, args, prefix) => {
         var usedBy = used_by
       }
 
-      if (typeof niv == 'undefined') {
+      if (typeof item_name == 'undefined') {
 
         return message.channel.send('Item não encontrado. Tente enviar mais informações.');
 
