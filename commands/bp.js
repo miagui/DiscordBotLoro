@@ -87,7 +87,7 @@ module.exports.run = (client, message, args, prefix) => {
 
         //value é o valor de tantas keys ou metais. Por exemplo: 1.66 Refined
         const currency = (key_metal, value) => {
-          if (value.toString() == 'metal') {
+          if (key_metal.toString() == 'metal') {
             return `refined (R$ ${usd_refined * value * rate.toString().slice(0, 3)})`;
           } else {
             return `keys (R$ ${2.50 * value * rate.toString().slice(0, 3)})`
