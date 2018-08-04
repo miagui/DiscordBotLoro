@@ -93,7 +93,7 @@ module.exports.run = (client, message, args, prefix) => {
           if (key_metal.toString() == 'metal') {
 
             console.log(key_metal.toString())
-            return `refined (R$ ${usd_refined * value * rate.toString().slice(0, 3)})`;
+            return `refined (R$ ${Number(usd_refined) * value * rate.toString().slice(0, 3)})`;
 
           } else {
 
