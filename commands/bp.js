@@ -85,11 +85,14 @@ module.exports.run = (client, message, args, prefix) => {
         let collector = bSearch.find(item_name).find('prices').find('14').find('value').value();
         let col_ = bSearch.find(item_name).find('prices').find('14').find('currency').value();
 
+        console.log(usd_refined)
+
         //value é o valor de tantas keys ou metais. Por exemplo: 1.66 Refined
         const currency = (key_metal, value) => {
-          
+
           if (key_metal.toString() == 'metal') {
 
+            console.log(key_metal.toString())
             return `refined (R$ ${usd_refined * value * rate.toString().slice(0, 3)})`;
 
           } else {
