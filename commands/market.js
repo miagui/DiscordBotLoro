@@ -7,7 +7,7 @@ const request = require('request');
 
 const arg_to_hashname = require('../scripts/arg-to-markethashname.js')
 const convert = require('../scripts/convert.js')
-const bp = require('./bp.js')
+const search_bp = require('../scripts/search_bp.js')
 
 module.exports.run = (client, message, args, prefix) => {
 
@@ -20,7 +20,9 @@ module.exports.run = (client, message, args, prefix) => {
     var thumbnail = await arg_to_hashname.execute(itemArg, 'icon_url')
     var bitskins_sellPrice = await arg_to_hashname.execute(itemArg, 'price')
     var quality_color = await arg_to_hashname.execute(itemArg, 'quality_color')
+
     var rate = await convert.USDto('BRL')
+    var key_price = await search_bp.findKeyPrice()
 
     if (!market_hash_name) return message.channel.send('Item não encontrado. Tente ser mais legível.')
 
@@ -35,9 +37,8 @@ module.exports.run = (client, message, args, prefix) => {
       var converted_price = bitskins_sellPrice * rate.toString().slice(0, 3)
 
       //função (preço, preço da key, preço da key em refinados.)
-      console.log(bp.key_price)
-      var sell_tfcurrency = convert.MoneyTo(sellPrice, 2.50 * rate, bp.key_price)
-      var last_tfcurrency = convert.MoneyTo(lastsoldPrice, 2.50 * rate, bp.key_price)
+      var sell_tfcurrency = convert.MoneyTo(sellPrice, 2.50 * rate, key_price)
+      var last_tfcurrency = convert.MoneyTo(lastsoldPrice, 2.50 * rate, key_price)
 
       const embed = new Discord.RichEmbed()
 

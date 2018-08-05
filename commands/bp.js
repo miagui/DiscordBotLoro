@@ -70,9 +70,6 @@ module.exports.run = (client, message, args, prefix) => {
         var usd_refined = bSearch.find('raw_usd_value').value()[0]
         var key_price = bSearch.find("Mann Co. Supply Crate Key").find('Craftable').find('value').value()[0]
 
-        //Função para retornar o atual valor da key
-        module.exports.key_price = key_price
-
         let craft = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('value').value();
         let uncraft = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('value').value();
 
