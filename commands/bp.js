@@ -110,8 +110,8 @@ module.exports.run = (client, message, args, prefix) => {
         }
       }
 
-        const checkIf = (valor, moeda, quality) => {
-          let c = currency(moeda, valor)
+        const checkIf = (quantidade, moeda, quality) => {
+          let c = currency(moeda, quantidade)
 
           if (!valor.toString() && !moeda.toString()) return
 
@@ -120,11 +120,14 @@ module.exports.run = (client, message, args, prefix) => {
           if (valor.length == 1 && moeda.length == 1) return embed.addField(quality, `Craftable: __${valor} ${c}__`, true)
         }
 
-        const uniqueExists = (crft, nonCrft) => {
+        const uniqueExists = (crft, nonCrft, moeda_crft, moeda_uncrft) => {
 
-          if (crft.length && nonCrft.length) return embed.addField('Unique', `Craftable: __${craft} ${currency(cr)}__\nNon-Craftable: __${uncraft} ${currency(uncr)}__`)
-          if (crft.length && !nonCrft.length) return embed.addField('Unique', `Craftable: __${craft} ${currency(cr)}__`)
-          if (!crft.length && nonCrft.length) return embed.addField('Unique', `Uncraftable: __${uncraft} ${currency(uncr)}__`)
+          let CraftableCurrency = currency(moeda_crft, crft)
+          let UncraftableCurrency = currency(moeda_uncrft, nonCrft)
+
+          if (crft.length && nonCrft.length) return embed.addField('Unique', `Craftable: __${craft} ${CraftableCurrency}__\nNon-Craftable: __${uncraft} ${UncraftableCurrency}__`)
+          if (crft.length && !nonCrft.length) return embed.addField('Unique', `Craftable: __${craft} ${CraftableCurrency}__`)
+          if (!crft.length && nonCrft.length) return embed.addField('Unique', `Uncraftable: __${uncraft} ${UncraftableCurrency}__`)
           if (!crft.length && !nonCrft.length) return
         }
 
@@ -136,7 +139,7 @@ module.exports.run = (client, message, args, prefix) => {
           .setURL(`https://backpack.tf/classifieds?item=${encodeURIComponent(item_name)}`)
           .setFooter("backpack.tf")
           .setThumbnail(image_url)
-        uniqueExists(craft, uncraft)
+        uniqueExists(craft, uncraft, cr, uncr)
         checkIf(strange, str_, "Strange")
         checkIf(vintage, vint_, 'Vintage')
         checkIf(genuine, gen_, "Genuine")
