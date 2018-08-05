@@ -6,7 +6,8 @@ const jsonQ = require("jsonq");
 const request = require('request');
 
 const arg_to_hashname = require('../scripts/arg-to-markethashname.js')
-const USDto = require('../scripts/convert.js')
+const convert = require('../scripts/convert.js')
+const bp = require('./bp.js')
 
 module.exports.run = (client, message, args, prefix) => {
 
@@ -19,7 +20,7 @@ module.exports.run = (client, message, args, prefix) => {
         var thumbnail = await arg_to_hashname.execute(itemArg, 'icon_url')
         var bitskins_sellPrice = await arg_to_hashname.execute(itemArg, 'price')
         var quality_color = await arg_to_hashname.execute(itemArg, 'quality_color')
-        var rate = await USDto.convert('BRL')
+        var rate = await convert.USDto('BRL')
 
       if (!market_hash_name) return message.channel.send('Item não encontrado. Tente ser mais legível.')
 
@@ -32,6 +33,8 @@ module.exports.run = (client, message, args, prefix) => {
         var lastsoldPrice = body.find('median_price').value()
         var sold24hrs = body.find('volume').value()
         var converted_price = bitskins_sellPrice * rate.toString().slice(0, 3)
+        var sellPricetoTFCurrency = convert.MoneyTo(sellPrice, 2.50 * rate, bp.key_refined())
+        var lastsoldPricetoTFCurrency = convert.MoneyTo(lastsoldPrice, 2.50 * rate, bp.key_refined())
 
         const embed = new Discord.RichEmbed()
 
@@ -42,7 +45,7 @@ module.exports.run = (client, message, args, prefix) => {
           .setFooter("Steam & BitSkins")
           .setThumbnail(thumbnail)
           .addField('[BITSKINS]', `R$ ${converted_price}`, false)
-          .addField('[STEAM]', `Preço mais barato: ${sellPrice}\nÚltimo vendido por: ${lastsoldPrice}\n**${sold24hrs}** vendido(s) mas últimas **24 horas**.`, false)
+          .addField('[STEAM]', `Preço mais barato: ${sellPrice} (${})\nÚltimo vendido por: ${lastsoldPrice}\n**${sold24hrs}** vendido(s) mas últimas **24 horas**.`, false)
 
         message.channel.send({embed});
 

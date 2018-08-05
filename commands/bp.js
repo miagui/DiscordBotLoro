@@ -6,7 +6,7 @@ const jsonQ = require("jsonq");
 const request = require('request');
 const fuzzysort = require('fuzzysort')
 
-const USDto = require('../scripts/convert.js')
+const convert = require('../scripts/convert.js')
 
 module.exports.run = (client, message, args, prefix) => {
 
@@ -23,22 +23,24 @@ module.exports.run = (client, message, args, prefix) => {
       data = data.result.items;
       var itemArg = args.join(" ");
       if (!itemArg) return message.channel.send('Envie um item válido ou mude as palavras.\n`!bp <nomedoitem>`');
-      var results = fuzzysort.go(itemArg, data, {
-        key: 'item_name'
-      })
+      var results = fuzzysort.go(itemArg, data, {key: 'item_name'})
       results = jsonQ(results)
 
       async function return_promise() {
 
-      var rate = await USDto.convert('BRL')
+      var rate = await convert.USDto('BRL')
       var item_name = results.find('item_name').value()[0]; //procura pelo array name
       var image_url = results.find('image_url').value()[0]
       var used_by = results.find('used_by_classes').value()[0]
 
       if (!used_by) {
+
         var usedBy = ['All-Classes']
+
       } else {
+
         var usedBy = used_by
+
       }
 
       if (typeof item_name == 'undefined') {
@@ -67,6 +69,15 @@ module.exports.run = (client, message, args, prefix) => {
 
         var usd_refined = bSearch.find('raw_usd_value').value()[0]
 
+        //Função para retornar o atual valor da key
+        module.exports.key_refined = () => {
+
+          return bSearch.find('"Mann Co. Supply Crate Key"').find('Craftable').find('value').value()
+
+         }
+
+
+
         let craft = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('value').value();
         let uncraft = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('value').value();
 
@@ -90,11 +101,11 @@ module.exports.run = (client, message, args, prefix) => {
 
           if (key_metal.toString() == 'metal') {
 
-            return `refined (R$ ${0.065 * value * rate.toString().slice(0, 3)})`;
+            return `refined (R$ ${convert.ValueTo('refined', value, usd_refined, rate)})`;
 
           } else {
 
-            return `keys (R$ ${2.50 * value * rate.toString().slice(0, 3)})`;
+            return `keys (R$ ${convert.ValueTo('key', value, 2.50, rate)})`;
 
         }
       }
