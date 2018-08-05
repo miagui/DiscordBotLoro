@@ -19,9 +19,9 @@ module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
 
   console.log(`antes dinheiro: ${dinheiro}`)
 
-  var money = dinheiro.replace(/,/g, '');
+  dinheiro = parseFloat(dinheiro.toString().replace(/,/g, ''));
   
-  console.log(`depois dinheiro: ${money}`)
+  console.log(`depois dinheiro: ${dinheiro}`)
 
   //R$ 16,97 / 8.79
   var results = dinheiro / current_key_value
