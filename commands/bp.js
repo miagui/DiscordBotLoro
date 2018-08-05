@@ -110,14 +110,16 @@ module.exports.run = (client, message, args, prefix) => {
         }
       }
 
+      //Exemplo: quantidade = 21, moeda = refined, quality = strange
         const checkIf = (quantidade, moeda, quality) => {
+          
           let c = currency(moeda, quantidade)
 
-          if (!valor.toString() && !moeda.toString()) return
+          if (!quantidade.toString() && !moeda.toString()) return
 
-          if (valor.length == 2 && moeda.length == 2) return embed.addField(quality, `Craftable: __${valor[0]} ${c[0]}__\nNon-Craftable: __${valor[1]} ${c[1]}__`, true)
+          if (quantidade.length == 2 && moeda.length == 2) return embed.addField(quality, `Craftable: __${quantidade[0]} ${c[0]}__\nNon-Craftable: __${quantidade[1]} ${c[1]}__`, true)
 
-          if (valor.length == 1 && moeda.length == 1) return embed.addField(quality, `Craftable: __${valor} ${c}__`, true)
+          if (quantidade.length == 1 && moeda.length == 1) return embed.addField(quality, `Craftable: __${quantidade} ${c}__`, true)
         }
 
         const uniqueExists = (crft, nonCrft, moeda_crft, moeda_uncrft) => {
