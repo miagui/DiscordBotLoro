@@ -40,12 +40,12 @@ module.exports.ValueTo = (type, quantidade, to_money, rate) => {
   if (type == 'key') {
     var results = to_money * quantidade * rate.slice(0, 3)
     console.log(results)
-    return results
+    return results.toFixed(2)
   }
   
   if (type == 'refined') {
     var results = to_money * quantidade * rate.slice(0, 3)
     console.log(results)
-    return results
+    return results.toFixed(2)
   }
 }
