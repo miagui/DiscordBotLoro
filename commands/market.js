@@ -33,8 +33,8 @@ module.exports.run = (client, message, args, prefix) => {
       var lastsoldPrice = body.find('median_price').value()
       var sold24hrs = body.find('volume').value()
       var converted_price = bitskins_sellPrice * rate.toString().slice(0, 3)
-      var sell_tfcurrency = convert.MoneyTo(sellPrice, 2.50 * rate, bp.key_refined())
-      var last_tfcurrency = convert.MoneyTo(lastsoldPrice, 2.50 * rate, bp.key_refined())
+      var sell_tfcurrency = convert.MoneyTo(sellPrice, 2.50 * rate, bp.key_price)
+      var last_tfcurrency = convert.MoneyTo(lastsoldPrice, 2.50 * rate, bp.key_price)
 
       const embed = new Discord.RichEmbed()
 

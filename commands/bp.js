@@ -68,15 +68,10 @@ module.exports.run = (client, message, args, prefix) => {
         let bSearch = jsonQ(data2)
 
         var usd_refined = bSearch.find('raw_usd_value').value()[0]
+        var key_price = bSearch.find("Mann Co. Supply Crate Key").find('Craftable').find('value').value()[0]
 
         //Função para retornar o atual valor da key
-        module.exports.key_refined = () => {
-
-          return bSearch.find("Mann Co. Supply Crate Key").find('Craftable').find('value').value()
-
-         }
-
-
+        module.exports.key_price = key_price
 
         let craft = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('value').value();
         let uncraft = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('value').value();
@@ -125,6 +120,7 @@ module.exports.run = (client, message, args, prefix) => {
         const uniqueExists = (crft, nonCrft, moeda_crft, moeda_uncrft) => {
 
           let CraftableCurrency = currency(moeda_crft, crft)
+
           let UncraftableCurrency = currency(moeda_uncrft, nonCrft)
 
           if (crft.length && nonCrft.length) return embed.addField('Unique', `Craftable: __${craft} ${CraftableCurrency}__\nNon-Craftable: __${uncraft} ${UncraftableCurrency}__`)
