@@ -23,7 +23,7 @@ module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
   
   console.log(`depois dinheiro: ${dinheiro}`)
 
-  //R$ 16,97 / 8.79
+  //R$ 16,97 / 8.79]
   var results = dinheiro / current_key_value
 
   if (results >= 1) {
