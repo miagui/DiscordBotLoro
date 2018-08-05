@@ -31,7 +31,7 @@ module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
 
   console.log(`antes dinheiro: ${dinheiro}`)
 
-  dinheiro = parseNumber(dinheiro)
+  dinheiro = parseNumber(dinheiro.toString())
   
   console.log(`depois dinheiro: ${dinheiro}`)
 
