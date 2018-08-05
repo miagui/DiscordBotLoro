@@ -8,7 +8,7 @@ module.exports.findKeyPrice = (key) => {
 
                 data = JSON.parse(data)
                 data = jsonQ(data).find(key).find('value').value()[0]
-                return data
+                resolve(data)
                 
             }
         })
