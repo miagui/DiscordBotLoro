@@ -19,7 +19,7 @@ module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
 
   console.log(`antes dinheiro: ${dinheiro}`)
 
-  dinheiro = parseFloat(dinheiro)
+  dinheiro = parseFloat(dinheiro.replace(/,/g, ''));
   
   console.log(`depois dinheiro: ${dinheiro}`)
 
