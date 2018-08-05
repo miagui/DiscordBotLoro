@@ -72,7 +72,7 @@ module.exports.run = (client, message, args, prefix) => {
         //Função para retornar o atual valor da key
         module.exports.key_refined = () => {
 
-          return bSearch.find('"Mann Co. Supply Crate Key"').find('Craftable').find('value').value()
+          return bSearch.find("Mann Co. Supply Crate Key").find('Craftable').find('value').value()
 
          }
 
