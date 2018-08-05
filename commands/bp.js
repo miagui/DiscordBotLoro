@@ -126,8 +126,11 @@ module.exports.run = (client, message, args, prefix) => {
           let UncraftableCurrency = currency(moeda_uncrft, nonCrft)
 
           if (crft.length && nonCrft.length) return embed.addField('Unique', `Craftable: __${craft} ${CraftableCurrency}__\nNon-Craftable: __${uncraft} ${UncraftableCurrency}__`)
+          
           if (crft.length && !nonCrft.length) return embed.addField('Unique', `Craftable: __${craft} ${CraftableCurrency}__`)
+          
           if (!crft.length && nonCrft.length) return embed.addField('Unique', `Uncraftable: __${uncraft} ${UncraftableCurrency}__`)
+          
           if (!crft.length && !nonCrft.length) return
         }
 

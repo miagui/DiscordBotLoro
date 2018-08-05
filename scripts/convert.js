@@ -39,13 +39,13 @@ module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
 module.exports.ValueTo = (type, quantidade, to_money, rate) => {
   if (type == 'key') {
     var results = to_money * quantidade * rate
-    console.log(results.slice(0, 3))
-    return results.slice(0, 3)
+    console.log(results)
+    return results
   }
   
   if (type == 'refined') {
     var results = to_money * quantidade * rate
-    console.log(results.slice(0, 3))
-    return results.slice(0, 3)
+    console.log(results)
+    return results
   }
 }
