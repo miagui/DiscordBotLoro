@@ -17,18 +17,23 @@ module.exports.USDto = (currency) => {
 
 module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
 
-  dinheiro = parseFloat(dinheiro)
+  console.log(`antes dinheiro: ${dinheiro}`)
 
+  dinheiro = parseFloat(dinheiro)
+  
+  console.log(`depois dinheiro: ${dinheiro}`)
+
+  //R$ 16,97 / 8.79
   var results = dinheiro / current_key_value
 
   if (results >= 1) {
 
-    console.log('valor é maior que 1')
+    console.log(`valor é maior que 1 : ${results}`)
     return results
 
   } else {
 
-    console.log('valor é menor que 1')
+    console.log(`valor é menor que 1 : ${results}`)
     //Key to Ref * results (Exemplo: 33 * 0.5 = 16,5 refined)
     return key_to_ref * results
 

@@ -37,6 +37,7 @@ module.exports.run = (client, message, args, prefix) => {
       var converted_price = bitskins_sellPrice * rate.toString().slice(0, 3)
 
       //função (preço, preço da key, preço da key em refinados.)
+      console.log(key_price)
       var sell_tfcurrency = convert.MoneyTo(sellPrice, 2.50 * rate, key_price)
       var last_tfcurrency = convert.MoneyTo(lastsoldPrice, 2.50 * rate, key_price)
 
@@ -48,7 +49,7 @@ module.exports.run = (client, message, args, prefix) => {
         .setURL(`https://steamcommunity.com/market/listings/440/${encodeURIComponent(market_hash_name)}`)
         .setFooter("Steam & BitSkins")
         .setThumbnail(thumbnail)
-        .addField('[BITSKINS]', `R$ ${converted_price}`, false)
+        .addField('[BITSKINS]', `R$ ${converted_price.toFixed(2)}`, false)
         .addField('[STEAM]', `Preço mais barato: ${sellPrice} (${sell_tfcurrency})\nÚltimo vendido por: ${lastsoldPrice} (${last_tfcurrency})\n**${sold24hrs}** vendido(s) mas últimas **24 horas**.`, false)
 
       message.channel.send({
