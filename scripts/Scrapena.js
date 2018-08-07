@@ -41,12 +41,13 @@ const InventoryCheck = (defid, name, id64, player) => {
                 //Se a qtde de itens da variavel cache é não é igual ao de inventory, então notifique e atualize o cache.
                 if (inventory['quantidade'] != cache['quantidade']) {
                     if (inventory['quantidade'] != 0) {
-                    client.users.get('263628661415084032').send(`https://scrap.tf/partswap: -> O __${player}__ está com **${inventory['quantidade']}** ${inventory['nome']} em seu inventario.`);
+                    client.users.get('263628661415084032').send(`[https://scrap.tf/partswap] => O __${player}__ está com **${inventory['quantidade']}** ${inventory['nome']} em seu inventario.`);
                     }
                     fs.writeFile(`./steam-user/cache_${defid}_${id64}.json`, JSON.stringify(inventory), (err) => {
                         if (err) throw console.log(err)
 
                     })
+
                 } else {
 
                     return

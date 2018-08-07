@@ -20,6 +20,7 @@ const config = require("./config.json");
 const forEachArray = require('./scripts/forEachArray.js')
 
 client.commands = new Discord.Collection()
+
 drss.login(process.env.token)
 client.login(process.env.token);
 

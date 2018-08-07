@@ -34,7 +34,7 @@ var exchange_rate = new cron.CronJob ({
             }
         })
     }, 
-    start: true,
+    start: false,
     timeZone: 'America/Sao_Paulo'
 })
 
