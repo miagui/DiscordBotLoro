@@ -23,6 +23,7 @@ module.exports.run = (client, message, args, prefix) => {
 
     var rate = await convert.USDto('BRL')
     var key2ref_price = await search_bp.findKeyPrice('Mann Co. Supply Crate Key')
+    var usd_refined = await search_bp.find('Refined Metal')
 
     if (!market_hash_name) return message.channel.send('Item não encontrado. Tente ser mais legível.')
 
@@ -36,9 +37,9 @@ module.exports.run = (client, message, args, prefix) => {
       var sold24hrs = body.find('volume').value()
       var converted_price = bitskins_sellPrice * rate.toString().slice(0, 3)
 
-      //função (preço, preço da key, preço da key em refinados.)
-      var sell_tfcurrency = convert.MoneyTo(sellPrice, 2.50 * rate.toString(), key2ref_price)
-      var last_tfcurrency = convert.MoneyTo(lastsoldPrice, 2.50 * rate.toString(), key2ref_price)
+      //função (preço, preço da key, preço da key em refinados).
+      var sell_tfcurrency = convert.MoneyTo(sellPrice, usd_refined * key2ref_price  * rate.toString(), key2ref_price)
+      var last_tfcurrency = convert.MoneyTo(lastsoldPrice, usd_refined * key2ref_price  * rate.toString(), key2ref_price)
 
       const embed = new Discord.RichEmbed()
 
