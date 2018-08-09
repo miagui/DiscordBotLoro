@@ -23,7 +23,7 @@ module.exports.run = (client, message, args, prefix) => {
 
     var rate = await convert.USDto('BRL')
     var key2ref_price = await search_bp.findKeyPrice('Mann Co. Supply Crate Key')
-    var usd_refined = await search_bp.find('Refined Metal')
+    var usd_refined = await search_bp.findKeyPrice('Refined Metal')
 
     if (!market_hash_name) return message.channel.send('Item não encontrado. Tente ser mais legível.')
 
