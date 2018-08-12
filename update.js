@@ -24,12 +24,13 @@ var applist = new cron.CronJob({
 });
 
 var exchange_rate = new cron.CronJob ({
-    cronTime: '* */12 * * *',
+    cronTime: '00 30 14 * * 0-6',
     onTick: function () {
         request(`https://openexchangerates.org/api/latest.json?app_id=${process.env.exchangeratetoken}`, (error, response, body) => {
             if (!error) {
                 fs.writeFile('./json/exchange_rate.json', body, (err) => {
                     if (err) throw console.log(err)
+                    console.log('Atualizado ExchangeRates')
                 })
             }
         })
