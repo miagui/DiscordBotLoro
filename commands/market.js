@@ -22,8 +22,8 @@ module.exports.run = (client, message, args, prefix) => {
     var quality_color = await arg_to_hashname.execute(itemArg, 'quality_color')
 
     var rate = await convert.USDto('BRL')
-    var key2ref_price = await search_bp.findKeyPrice('Mann Co. Supply Crate Key')
-    var usd_refined = await search_bp.findKeyPrice('Refined Metal')
+    var key2ref_price = await search_bp.findBpPrice('Mann Co. Supply Crate Key', 'default')[0]
+    var usd_refined = await search_bp.findBpPrice('raw_usd_value', 'refined')[0]
 
     if (!market_hash_name) return message.channel.send('Item não encontrado. Tente ser mais legível.')
 
@@ -37,7 +37,7 @@ module.exports.run = (client, message, args, prefix) => {
       var sold24hrs = body.find('volume').value()
       var converted_price = bitskins_sellPrice * rate.toString().slice(0, 3)
 
-      //função (preço, preço da key, preço da key em refinados).
+      //função (preço R$, preço da key [0.055 usd * 33 ref * R$4.10], preço da key em refinados).
       var sell_tfcurrency = convert.MoneyTo(sellPrice, usd_refined * key2ref_price  * rate.toString(), key2ref_price)
       var last_tfcurrency = convert.MoneyTo(lastsoldPrice, usd_refined * key2ref_price  * rate.toString(), key2ref_price)
 
@@ -49,7 +49,6 @@ module.exports.run = (client, message, args, prefix) => {
         .setURL(`https://steamcommunity.com/market/listings/440/${encodeURIComponent(market_hash_name)}`)
         .setFooter("Steam & BitSkins")
         .setThumbnail(thumbnail)
-        .addField('[BITSKINS]', `R$ ${converted_price.toFixed(2)}`, false)
         .addField('[STEAM]', `Preço mais barato: ${sellPrice} (${sell_tfcurrency})\nÚltimo vendido por: ${lastsoldPrice} (${last_tfcurrency})\n**${sold24hrs}** vendido(s) mas últimas **24 horas**.`, false)
 
       message.channel.send({

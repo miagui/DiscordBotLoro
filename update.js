@@ -40,7 +40,7 @@ var exchange_rate = new cron.CronJob ({
 })
 
 var bptf_price = new cron.CronJob({
-    cronTime: '*/20 * * * *',
+    cronTime: '*/50 * * * *',
     onTick: function () {
         console.log('[BACKPACK.TF/API] Buscando backpack.tf...');
         request(`https://backpack.tf/api/IGetPrices/v4?key=${process.env.bptoken}`, function (error, response, body) {

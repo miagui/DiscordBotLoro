@@ -18,9 +18,14 @@ module.exports.USDto = (currency) => {
 module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
   
   dinheiro = dinheiro.toString().slice(3).replace(',', '.')
+
+  console.log(`antes ${dinheiro}`)
+  console.log(`current key value ${current_key_value}`)
   
-  // [R$ 16,97 / 8.79]
+  // Divisão [R$ 16,97 / 9.80 = 1.7 keys]
   var results = dinheiro / parseFloat(current_key_value)
+
+  console.log(`depois ${results}`)
 
   if (results >= 1) {
 

@@ -89,9 +89,9 @@ module.exports.run = (client, message, args, prefix) => {
         let col_ = bSearch.find(item_name).find('prices').find('14').find('currency').value();
 
         //value é o valor de tantas keys ou metais. Por exemplo: 1.66 Refined
-        const currency = (key_metal, value) => {
+        const currency = (currency_type, value) => {
 
-          if (key_metal.toString() == 'metal') {
+          if (currency_type.toString() == 'metal') {
 
             return `refined (R$ ${convert.ValueTo('refined', value, usd_refined, rate)})`;
 
