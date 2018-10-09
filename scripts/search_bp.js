@@ -14,7 +14,9 @@ module.exports.findBpPrice = (key, item_type) => {
                     data = JSON.parse(data)
                     data = jsonQ(data).find(key).find('value').value()
                     resolve(data)
+
                 } else {
+                    
                     console.log(key)
                     data = JSON.parse(data)
                     data = jsonQ(data).find(key).value()

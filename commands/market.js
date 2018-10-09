@@ -22,8 +22,8 @@ module.exports.run = (client, message, args, prefix) => {
     var quality_color = await arg_to_hashname.execute(itemArg, 'quality_color')
 
     var rate = await convert.USDto('BRL')
-    var key2ref_price = await search_bp.findBpPrice('Mann Co. Supply Crate Key', 'default')[0]
-    var usd_refined = await search_bp.findBpPrice('raw_usd_value', 'refined')[0]
+    var key2ref_price = await search_bp.findBpPrice('Mann Co. Supply Crate Key', 'default')
+    var usd_refined = await search_bp.findBpPrice('raw_usd_value', 'refined')
 
     if (!market_hash_name) return message.channel.send('Item não encontrado. Tente ser mais legível.')
 
