@@ -1,7 +1,7 @@
 const fs = require('fs')
 const jsonQ = require('jsonq')
 
-module.exports.USDto = (currency) => {
+module.exports.usdTo = (currency) => {
   return new Promise((resolve, reject) => {
     fs.readFile('./json/exchange_rate.json', (err, data) => {
 
@@ -15,7 +15,7 @@ module.exports.USDto = (currency) => {
   })
 }
 
-module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
+module.exports.moneyTo = (dinheiro, current_key_value, key_to_ref) => {
   
   dinheiro = dinheiro.toString().slice(3).replace(',', '.')
 
@@ -46,7 +46,7 @@ module.exports.MoneyTo = (dinheiro, current_key_value, key_to_ref) => {
 //to_money = preço a ser multiplicado. 2.50 ou 0.055 refinados
 //rate = converter o preço de dolar para reais
 
-module.exports.ValueTo = (type, quantidade, to_money, rate) => {
+module.exports.tfCurrencyToMoney = (type, quantidade, to_money, rate) => {
   if (type == 'key') {
     var results = to_money * quantidade * rate.slice(0, 3)
     return results.toFixed(2)

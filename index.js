@@ -7,7 +7,6 @@ const drss = new DiscordRSS.Client({
   }
 }) // File-based sources instead of Mongo
 
-const steaminventory = require('get-steam-inventory');
 const client = new Discord.Client();
 const _ = require('lodash');
 const jsonQ = require("jsonq");
@@ -24,12 +23,11 @@ client.commands = new Discord.Collection()
 drss.login(process.env.token)
 client.login(process.env.token);
 
-//forEachArray.execute()
-
-//Atualiza os preços do bp.tf e jogos steam
-update.applist.start()
-update.exchange_rate.start()
-update.bptf_price.start()
+//Atualiza os preços do bp.tf e jogos steam de tempo em tempo (update.js)
+update.appList.start()
+update.exchangeRate.start()
+update.bpTfPrice.start()
+update.discordStatus.start()
 
 //Leitor para comandos 
 fs.readdir("./events/", (err, files) => {
@@ -44,8 +42,8 @@ fs.readdir("./events/", (err, files) => {
 
 //Discord: Status
 client.on('ready', () => {
-  client.user.setUsername('BOT Loro');
-  client.user.setActivity('Bicando a tua mãe', {
+  client.user.setUsername('Loro Piripaque');
+  client.user.setActivity('Minecraft', {
     type: "PLAYING"
   });
 
@@ -60,13 +58,13 @@ client.on("message", (message) => {
       message.author.send('ok, iniciado')
 
       update.inventoryUpdate.start()
-      update.Notifier.start()
+      update.itemInvNotifier.start()
 
     } else if (message.content === 'stop') {
       message.author.send('ok, parado')
 
       update.inventoryUpdate.stop()
-      update.Notifier.stop()
+      update.itemInvNotifier.stop()
       
     }
   } // se o comando for no privado, então retorne.

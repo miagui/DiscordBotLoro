@@ -5,9 +5,10 @@ const fs = require('fs');
 const jsonQ = require("jsonq");
 const request = require('request');
 
-const arg_to_hashname = require('../scripts/arg-to-markethashname.js')
 const convert = require('../scripts/convert.js')
-const search_bp = require('../scripts/search_bp.js')
+
+const argToHashname = require('../scripts/arg_to_markethashname.js')
+const searchBp = require('../scripts/search_bp.js')
 
 module.exports.run = (client, message, args, prefix) => {
 
@@ -16,14 +17,16 @@ module.exports.run = (client, message, args, prefix) => {
 
   async function return_promise() {
 
-    var market_hash_name = await arg_to_hashname.execute(itemArg, 'market_hash_name')
-    var thumbnail = await arg_to_hashname.execute(itemArg, 'icon_url')
-    var bitskins_sellPrice = await arg_to_hashname.execute(itemArg, 'price')
-    var quality_color = await arg_to_hashname.execute(itemArg, 'quality_color')
+    var rate = await convert.usdTo('BRL')
 
-    var rate = await convert.USDto('BRL')
-    var key2ref_price = await search_bp.findBpPrice('Mann Co. Supply Crate Key', 'default')
-    var usd_refined = await search_bp.findBpPrice('raw_usd_value', 'refined')
+    var market_hash_name = await argToHashname.execute(itemArg, 'market_hash_name')
+    var thumbnail = await argToHashname.execute(itemArg, 'icon_url')
+    var quality_color = await argToHashname.execute(itemArg, 'quality_color')
+
+    //key2ref = preço da chave em refinados
+    //usd_refined = preço do refinado em dólar
+    var keyToRefPrice = await searchBp.findBpPrice('Mann Co. Supply Crate Key', 'default')
+    var usdRefined = await searchBp.findBpPrice('raw_usd_value', 'refined')
 
     if (!market_hash_name) return message.channel.send('Item não encontrado. Tente ser mais legível.')
 
@@ -33,13 +36,13 @@ module.exports.run = (client, message, args, prefix) => {
       body = jsonQ(body)
 
       var sellPrice = body.find('lowest_price').value()
-      var lastsoldPrice = body.find('median_price').value()
-      var sold24hrs = body.find('volume').value()
-      var converted_price = bitskins_sellPrice * rate.toString().slice(0, 3)
+      var lastSoldPrice = body.find('median_price').value()
+      var lastSold24hrs = body.find('volume').value()
 
+      //converte o dinheiro para o valor da moeda do TF2 (refinado ou keys)
       //função (preço R$, preço da key [0.055 usd * 33 ref * R$4.10], preço da key em refinados).
-      var sell_tfcurrency = convert.MoneyTo(sellPrice, usd_refined * key2ref_price  * rate.toString(), key2ref_price)
-      var last_tfcurrency = convert.MoneyTo(lastsoldPrice, usd_refined * key2ref_price  * rate.toString(), key2ref_price)
+      var sellMoneyToTf = convert.moneyTo(sellPrice, usdRefined * keyToRefPrice  * rate.toString(), keyToRefPrice)
+      var lastSoldMoneyToTf = convert.moneyTo(lastSoldPrice, usdRefined * keyToRefPrice  * rate.toString(), keyToRefPrice)
 
       const embed = new Discord.RichEmbed()
 
@@ -47,9 +50,9 @@ module.exports.run = (client, message, args, prefix) => {
         .setTitle(`**${market_hash_name}**`)
         .setDescription(`ANÚNCIOS`)
         .setURL(`https://steamcommunity.com/market/listings/440/${encodeURIComponent(market_hash_name)}`)
-        .setFooter("Steam & BitSkins")
+        .setFooter("Steam")
         .setThumbnail(thumbnail)
-        .addField('[STEAM]', `Preço mais barato: ${sellPrice} (${sell_tfcurrency})\nÚltimo vendido por: ${lastsoldPrice} (${last_tfcurrency})\n**${sold24hrs}** vendido(s) mas últimas **24 horas**.`, false)
+        .addField('[STEAM]', `Preço mais barato: ${sellPrice} (${sellMoneyToTf})\nÚltimo vendido por: ${lastSoldPrice} (${lastSoldMoneyToTf})\n**${lastSold24hrs}** vendido(s) mas últimas **24 horas**.`, false)
 
       message.channel.send({
         embed

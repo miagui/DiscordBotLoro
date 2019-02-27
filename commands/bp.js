@@ -24,14 +24,16 @@ module.exports.run = (client, message, args, prefix) => {
       var itemArg = args.join(" ");
       if (!itemArg) return message.channel.send('Envie um item válido ou mude as palavras.\n`!bp <nomedoitem>`');
       var results = fuzzysort.go(itemArg, data, {key: 'item_name'})
-      results = jsonQ(results)
 
       async function return_promise() {
 
-      var rate = await convert.USDto('BRL')
+      //rate = multiplicador da moeda. No caso converte do USD para BRL (3.70~)
+      var rate = await convert.usdTo('BRL');
+
+      results = jsonQ(results)
       var item_name = results.find('item_name').value()[0]; //procura pelo array name
-      var image_url = results.find('image_url').value()[0]
-      var used_by = results.find('used_by_classes').value()[0]
+      var image_url = results.find('image_url').value()[0];
+      var used_by = results.find('used_by_classes').value()[0];
 
       if (!used_by) {
 
@@ -58,23 +60,25 @@ module.exports.run = (client, message, args, prefix) => {
       }
 
       //busca a informação do jogo apartir do AppID fornecido antes.
-      fs.readFile('./json/bp_price.json', handleBP);
+      fs.readFile('./json/bp_price.json', handleBackpack);
 
-      function handleBP(err, data2) {
+      function handleBackpack(err, data2) {
 
         if (err) throw console.log(err)
         data2 = JSON.parse(data2);
 
         let bSearch = jsonQ(data2)
 
+        //usd_refined = preço do refinado em usd
         var usd_refined = bSearch.find('raw_usd_value').value()[0]
+        //key_price = preço da key em refinado
         var key_price = bSearch.find("Mann Co. Supply Crate Key").find('Craftable').find('value').value()[0]
 
         let craft = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('value').value();
-        let uncraft = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('value').value();
+        let cr_ = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('currency').value();
 
-        let cr = bSearch.find(item_name).find('prices').find('6').find('Craftable').find('currency').value();
-        let uncr = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('currency').value();
+        let uncraft = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('value').value();
+        let uncr_ = bSearch.find(item_name).find('prices').find('6').find('Non-Craftable').find('currency').value();
 
         let genuine = bSearch.find(item_name).find('prices').find('1').find('value').value();
         let gen_ = bSearch.find(item_name).find('prices').find('1').find('currency').value();
@@ -89,29 +93,33 @@ module.exports.run = (client, message, args, prefix) => {
         let col_ = bSearch.find(item_name).find('prices').find('14').find('currency').value();
 
         //value é o valor de tantas keys ou metais. Por exemplo: 1.66 Refined
+        //currency_type é o tipo de moeda; vêm do uso das variaveis que terminam com '_'
+        //exemplo: col_, str_
         const currency = (currency_type, value) => {
 
           if (currency_type.toString() == 'metal') {
 
-            return `refined (R$ ${convert.ValueTo('refined', value, usd_refined, rate)})`;
+            //se o currency_type for metal, então converta para dinheiro usando multilplicador usd_refined
+            return `refined (R$ ${convert.tfCurrencyToMoney('refined', value, usd_refined, rate)})`;
 
           } else {
 
-            return `keys (R$ ${convert.ValueTo('key', value, 2.50, rate)})`;
+            //se o currency_type for key, então converta para dinheiro usando o multiplicador 2.50 (MannCo)
+            return `keys (R$ ${convert.tfCurrencyToMoney('key', value, 2.50, rate)})`;
 
         }
       }
 
-      //Exemplo: quantidade = 21, moeda = refined, quality = strange
-        const checkIf = (quantidade, moeda, quality) => {
+      //Exemplo: quantidade = 21, moeda = refined, qualidade = strange
+        const checkIf = (quantidade, moeda, qualidade) => {
           
           let c = currency(moeda, quantidade)
 
           if (!quantidade.toString() && !moeda.toString()) return
 
-          if (quantidade.length == 2 && moeda.length == 2) return embed.addField(quality, `Craftable: __${quantidade[0]} ${c[0]}__\nNon-Craftable: __${quantidade[1]} ${c[1]}__`, true)
+          if (quantidade.length == 2 && moeda.length == 2) return embed.addField(qualidade, `Craftable: __${quantidade[0]} ${c[0]}__\nNon-Craftable: __${quantidade[1]} ${c[1]}__`, true)
 
-          if (quantidade.length == 1 && moeda.length == 1) return embed.addField(quality, `Craftable: __${quantidade} ${c}__`, true)
+          if (quantidade.length == 1 && moeda.length == 1) return embed.addField(qualidade, `Craftable: __${quantidade} ${c}__`, true)
         }
 
         const uniqueExists = (crft, nonCrft, moeda_crft, moeda_uncrft) => {
@@ -137,7 +145,7 @@ module.exports.run = (client, message, args, prefix) => {
           .setURL(`https://backpack.tf/classifieds?item=${encodeURIComponent(item_name)}`)
           .setFooter("backpack.tf")
           .setThumbnail(image_url)
-        uniqueExists(craft, uncraft, cr, uncr)
+        uniqueExists(craft, uncraft, cr_, uncr_)
         checkIf(strange, str_, "Strange")
         checkIf(vintage, vint_, 'Vintage')
         checkIf(genuine, gen_, "Genuine")
